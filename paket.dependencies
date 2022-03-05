@@ -1,0 +1,7 @@
+source https://api.nuget.org/v3/index.json
+
+nuget FirebirdSql.EntityFrameworkCore.Firebird
+nuget Microsoft.EntityFrameworkCore 5.0.9
+nuget Microsoft.EntityFrameworkCore.Design 5.0.9
+nuget Microsoft.Extensions.Options.ConfigurationExtensions
+nuget Swashbuckle.AspNetCore 6.2.3
