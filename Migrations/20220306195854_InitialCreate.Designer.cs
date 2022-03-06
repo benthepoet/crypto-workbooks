@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CryptoWorkbooks.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220306173831_InitialCreate")]
+    [Migration("20220306195854_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -217,7 +217,7 @@ namespace CryptoWorkbooks.Migrations
                     b.Property<decimal>("UsdCostBasis")
                         .HasColumnType("DECIMAL(18,2)");
 
-                    b.ToView("VIEW_REMAININGDEPOSIT");
+                    b.ToView("View_RemainingDeposit");
                 });
 
             modelBuilder.Entity("CryptoWorkbooks.Data.Queries.WithdrawalCostBasis", b =>
@@ -234,7 +234,7 @@ namespace CryptoWorkbooks.Migrations
                     b.Property<decimal>("Unknown")
                         .HasColumnType("DECIMAL(18,2)");
 
-                    b.ToView("VIEW_WITHDRAWALCOSTBASIS");
+                    b.ToView("View_WithdrawalSummary");
                 });
 
             modelBuilder.Entity("CryptoWorkbooks.Data.Models.Deposit", b =>

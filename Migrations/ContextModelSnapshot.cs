@@ -215,7 +215,7 @@ namespace CryptoWorkbooks.Migrations
                     b.Property<decimal>("UsdCostBasis")
                         .HasColumnType("DECIMAL(18,2)");
 
-                    b.ToView("VIEW_REMAININGDEPOSIT");
+                    b.ToView("View_RemainingDeposit");
                 });
 
             modelBuilder.Entity("CryptoWorkbooks.Data.Queries.WithdrawalCostBasis", b =>
@@ -232,7 +232,7 @@ namespace CryptoWorkbooks.Migrations
                     b.Property<decimal>("Unknown")
                         .HasColumnType("DECIMAL(18,2)");
 
-                    b.ToView("VIEW_WITHDRAWALCOSTBASIS");
+                    b.ToView("View_WithdrawalSummary");
                 });
 
             modelBuilder.Entity("CryptoWorkbooks.Data.Models.Deposit", b =>

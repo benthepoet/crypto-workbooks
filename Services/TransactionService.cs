@@ -98,35 +98,31 @@ public class TransactionService
 
     public async Task Reconcile()
     {
-        var withdrawalCostBases = await _context.WithdrawalCostBasis.ToListAsync();
+        var withdrawalSummary = await _context.WithdrawalCostBasis
+            .Where(x => x.Unknown > 0m)
+            .ToListAsync();
 
-        foreach (var b in withdrawalCostBases)
+        foreach (var b in withdrawalSummary)
         {
-            var c = b.Unknown;
-            if (c == 0)
-            {
-                break;
-            }
-
+            var unknownAmount = b.Unknown;
+            
             var remainingDeposits = await _context.RemainingDeposit.ToListAsync();
 
-            foreach (var r in remainingDeposits)
+            foreach (var deposit in remainingDeposits)
             {
-                var k = Math.Min(c, r.Remaining);
+                var amountToAllocate = Math.Min(unknownAmount, deposit.Remaining);
 
-                var t = new WithdrawalTransaction
+                var withdrawalTransaction = new WithdrawalTransaction
                 {
-                    Amount = k,
+                    Amount = amountToAllocate,
                     CreatedAt = DateTimeOffset.UtcNow,
-                    DepositId = r.Id,
+                    DepositId = deposit.Id,
                     WithdrawalId = b.Id
                 };
-                _context.Add(t);
+                _context.Add(withdrawalTransaction);
                 await _context.SaveChangesAsync();
 
-                c -= k;
-
-                if (c == 0)
+                if ((unknownAmount -= amountToAllocate) == 0)
                 {
                     break;
                 }

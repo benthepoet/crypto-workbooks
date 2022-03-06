@@ -17,7 +17,7 @@ public class Context : DbContext
                 eb =>
                 {
                     eb.HasNoKey();
-                    eb.ToView("VIEW_REMAININGDEPOSIT");
+                    eb.ToView("View_RemainingDeposit");
                 });
 
         modelBuilder
@@ -25,7 +25,7 @@ public class Context : DbContext
                 eb =>
                 {
                     eb.HasNoKey();
-                    eb.ToView("VIEW_WITHDRAWALCOSTBASIS");
+                    eb.ToView("View_WithdrawalSummary");
                 });
     }
 
