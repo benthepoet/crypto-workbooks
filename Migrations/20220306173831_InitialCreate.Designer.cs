@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CryptoWorkbooks.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220306150048_InitialCreate")]
+    [Migration("20220306173831_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -173,9 +173,6 @@ namespace CryptoWorkbooks.Migrations
                     b.Property<int>("DepositId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("UsdCostBasis")
-                        .HasColumnType("decimal(16, 2)");
-
                     b.Property<int>("WithdrawalId")
                         .HasColumnType("INTEGER");
 
@@ -201,6 +198,43 @@ namespace CryptoWorkbooks.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WithdrawalType");
+                });
+
+            modelBuilder.Entity("CryptoWorkbooks.Data.Queries.RemainingDeposit", b =>
+                {
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("DECIMAL(18,2)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Remaining")
+                        .HasColumnType("DECIMAL(18,2)");
+
+                    b.Property<decimal>("RemainingUsdCostBasis")
+                        .HasColumnType("DECIMAL(18,2)");
+
+                    b.Property<decimal>("UsdCostBasis")
+                        .HasColumnType("DECIMAL(18,2)");
+
+                    b.ToView("VIEW_REMAININGDEPOSIT");
+                });
+
+            modelBuilder.Entity("CryptoWorkbooks.Data.Queries.WithdrawalCostBasis", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Known")
+                        .HasColumnType("DECIMAL(18,2)");
+
+                    b.Property<decimal>("KnownUsdCostBasis")
+                        .HasColumnType("DECIMAL(18,2)");
+
+                    b.Property<decimal>("Unknown")
+                        .HasColumnType("DECIMAL(18,2)");
+
+                    b.ToView("VIEW_WITHDRAWALCOSTBASIS");
                 });
 
             modelBuilder.Entity("CryptoWorkbooks.Data.Models.Deposit", b =>

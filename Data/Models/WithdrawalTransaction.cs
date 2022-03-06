@@ -15,8 +15,5 @@ public class WithdrawalTransaction
     [Column(TypeName = "decimal(24, 24)")]
     public decimal Amount { get; set; }
 
-    [Column(TypeName = "decimal(16, 2)")]
-    public decimal UsdCostBasis { get; set; }
-
     public DateTimeOffset CreatedAt { get; set; }
 }

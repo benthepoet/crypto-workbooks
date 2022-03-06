@@ -96,12 +96,44 @@ public class TransactionService
         return Task.FromResult(new Dictionary<string, decimal>());
     }
 
-    public Task Reconcile()
+    public async Task Reconcile()
     {
-        var unmatchedWithdrawals = "";
-        var availableDeposits = "";
+        var withdrawalCostBases = await _context.WithdrawalCostBasis.ToListAsync();
 
-        return Task.CompletedTask;
+        foreach (var b in withdrawalCostBases)
+        {
+            var c = b.Unknown;
+            if (c == 0)
+            {
+                break;
+            }
+
+            var remainingDeposits = await _context.RemainingDeposit.ToListAsync();
+
+            foreach (var r in remainingDeposits)
+            {
+                var k = Math.Min(c, r.Remaining);
+
+                var t = new WithdrawalTransaction
+                {
+                    Amount = k,
+                    CreatedAt = DateTimeOffset.UtcNow,
+                    DepositId = r.Id,
+                    WithdrawalId = b.Id
+                };
+                _context.Add(t);
+                await _context.SaveChangesAsync();
+
+                c -= k;
+
+                if (c == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        return;
     }
 
     private async Task<Symbol> GetSymbol(string symbolName)

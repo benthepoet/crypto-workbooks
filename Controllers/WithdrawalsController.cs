@@ -1,5 +1,4 @@
 ﻿using CryptoWorkbooks.Data;
-using CryptoWorkbooks.Data.Models;
 using CryptoWorkbooks.Resources;
 using CryptoWorkbooks.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -38,5 +37,12 @@ public class WithdrawalsController : ControllerBase
             .ToListAsync();
 
         return this.Ok(withdrawals);
+    }
+
+    [HttpPost("reconcile")]
+    public async Task<IActionResult> ReconcileAsync()
+    {
+        await _transactionService.Reconcile();
+        return this.Ok();
     }
 }

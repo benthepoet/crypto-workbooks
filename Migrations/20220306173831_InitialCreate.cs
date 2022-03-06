@@ -151,7 +151,6 @@ namespace CryptoWorkbooks.Migrations
                     WithdrawalId = table.Column<int>(type: "INTEGER", nullable: false),
                     DepositId = table.Column<int>(type: "INTEGER", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(24, 24)", nullable: false),
-                    UsdCostBasis = table.Column<decimal>(type: "decimal(16, 2)", nullable: false),
                     CreatedAt = table.Column<string>(type: "VARCHAR(48)", nullable: false)
                 },
                 constraints: table =>
