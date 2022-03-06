@@ -1,4 +1,6 @@
-﻿namespace CryptoWorkbooks.Data.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CryptoWorkbooks.Data.Models;
 public class Deposit
 {
     public int Id { get; set; }
@@ -9,8 +11,10 @@ public class Deposit
     public int SymbolId { get; set; }
     public Symbol? Symbol { get; set; }
 
+    [Column(TypeName = "decimal(24, 24)")]
     public decimal Amount { get; set; }
 
+    [Column(TypeName = "decimal(16, 2)")]
     public decimal UsdCostBasis { get; set; }
 
     public int? FromWithdrawalId { get; set; }

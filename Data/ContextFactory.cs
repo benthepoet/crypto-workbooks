@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace CryptoWorkbooks.Data;
 
-public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
+public class ContextFactory : IDesignTimeDbContextFactory<Context>
 {
-    public DataContext CreateDbContext(string[] args)
+    public Context CreateDbContext(string[] args)
     {
         string? connectionString = null;
         for (var i = 0; i < args.Length; i++)
@@ -21,9 +21,9 @@ public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
             throw new Exception("Connection string is missing.");
         }
 
-        var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
+        var optionsBuilder = new DbContextOptionsBuilder<Context>();
         optionsBuilder.UseFirebird(connectionString);
 
-        return new DataContext(optionsBuilder.Options);
+        return new Context(optionsBuilder.Options);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace CryptoWorkbooks.Data;
 
-public class DataContextOptions
+public class ContextOptions
 {
     public const string SectionName = "Persistence";
 

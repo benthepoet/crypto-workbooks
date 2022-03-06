@@ -1,4 +1,4 @@
-using CryptoWorkbooks.Data;
+﻿using CryptoWorkbooks.Data;
 using CryptoWorkbooks.Data.Models;
 using CryptoWorkbooks.Resources;
 using CryptoWorkbooks.Services;
@@ -8,20 +8,20 @@ using Microsoft.EntityFrameworkCore;
 namespace CryptoWorkbooks.Controllers;
 
 [ApiController]
-[Route("deposits")]
-public class DepositsController : ControllerBase
+[Route("withdrawals")]
+public class WithdrawalsController : ControllerBase
 {
     private readonly Context _context;
     private readonly PriceService _priceService;
 
-    public DepositsController(Context context, PriceService priceService)
+    public WithdrawalsController(Context context, PriceService priceService)
     {
         _context = context;
         _priceService = priceService;
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync(CreateDepositRequest request)
+    public async Task<IActionResult> CreateAsync(CreateWithdrawalRequest request)
     {
         var symbol = await _context.Symbol.FirstOrDefaultAsync(x => x.Name == request.Symbol.ToUpper());
         if (symbol == null)
@@ -31,24 +31,24 @@ public class DepositsController : ControllerBase
             await _context.SaveChangesAsync();
         }
 
-        var usdCostBasis = request.UsdCostBasis;
-        if (usdCostBasis == null)
+        var usdProceeds = request.UsdProceeds;
+        if (usdProceeds == null)
         {
             var symbolPrice = await _priceService.GetSymbolPrice(request.Symbol, request.PerformedAt.Date);
-            usdCostBasis = request.Amount * symbolPrice.UsdPrice;
+            usdProceeds = request.Amount * symbolPrice.UsdPrice;
         }
 
-        var deposit = new Deposit
+        var withdrawal = new Withdrawal
         {
-            DepositTypeId = request.DepositTypeId,
+            WithdrawalTypeId = request.WithdrawalType,
             Symbol = symbol,
             Amount = request.Amount,
-            UsdCostBasis = usdCostBasis.Value,
+            UsdProceeds = usdProceeds.Value,
             PerformedAt = request.PerformedAt,
             CreatedAt = DateTimeOffset.UtcNow
         };
 
-        _context.Add(deposit);
+        _context.Add(withdrawal);
         await _context.SaveChangesAsync();
 
         return this.Accepted();
@@ -57,11 +57,12 @@ public class DepositsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetListAsync()
     {
-        var deposits = await _context.Deposit
-            .Include(x => x.DepositType)
+        var withdrawals = await _context.Withdrawal
+            .Include(x => x.WithdrawalType)
             .Include(x => x.Symbol)
+            .Include(x => x.ProceedsSymbol)
             .ToListAsync();
 
-        return this.Ok(deposits);
+        return this.Ok(withdrawals);
     }
 }

@@ -53,7 +53,7 @@ namespace CryptoWorkbooks.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn),
                     SymbolId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UsdPrice = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
+                    UsdPrice = table.Column<decimal>(type: "decimal(24, 24)", nullable: false),
                     SnapshotAt = table.Column<string>(type: "VARCHAR(48)", nullable: false)
                 },
                 constraints: table =>
@@ -75,10 +75,10 @@ namespace CryptoWorkbooks.Migrations
                         .Annotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn),
                     WithdrawalTypeId = table.Column<int>(type: "INTEGER", nullable: false),
                     SymbolId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Amount = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
-                    Proceeds = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: true),
+                    Amount = table.Column<decimal>(type: "decimal(24, 24)", nullable: false),
+                    Proceeds = table.Column<decimal>(type: "decimal(24, 24)", nullable: true),
                     ProceedsSymbolId = table.Column<int>(type: "INTEGER", nullable: true),
-                    UsdProceeds = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
+                    UsdProceeds = table.Column<decimal>(type: "decimal(16, 2)", nullable: false),
                     PerformedAt = table.Column<string>(type: "VARCHAR(48)", nullable: false),
                     CreatedAt = table.Column<string>(type: "VARCHAR(48)", nullable: false)
                 },
@@ -113,8 +113,8 @@ namespace CryptoWorkbooks.Migrations
                         .Annotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn),
                     DepositTypeId = table.Column<int>(type: "INTEGER", nullable: false),
                     SymbolId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Amount = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
-                    UsdCostBasis = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(24, 24)", nullable: false),
+                    UsdCostBasis = table.Column<decimal>(type: "decimal(16, 2)", nullable: false),
                     FromWithdrawalId = table.Column<int>(type: "INTEGER", nullable: true),
                     PerformedAt = table.Column<string>(type: "VARCHAR(48)", nullable: false),
                     CreatedAt = table.Column<string>(type: "VARCHAR(48)", nullable: false)

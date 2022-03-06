@@ -7,5 +7,7 @@ public class CreateDepositRequest
 
     public decimal Amount { get; set; }
 
-    public decimal UsdCostBasis { get; set; }
+    public decimal? UsdCostBasis { get; set; }
+
+    public DateTimeOffset PerformedAt { get; set; }
 }

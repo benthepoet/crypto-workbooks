@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CryptoWorkbooks.Data;
 
-public class DataContext : DbContext
+public class Context : DbContext
 {
-    public DataContext(DbContextOptions<DataContext> options) : base(options)
+    public Context(DbContextOptions<Context> options) : base(options)
     {
     }
 

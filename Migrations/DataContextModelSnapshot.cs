@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CryptoWorkbooks.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(Context))]
     partial class DataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -26,7 +26,7 @@ namespace CryptoWorkbooks.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("DECIMAL(18,2)");
+                        .HasColumnType("decimal(24, 24)");
 
                     b.Property<string>("CreatedAt")
                         .IsRequired()
@@ -46,7 +46,7 @@ namespace CryptoWorkbooks.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("UsdCostBasis")
-                        .HasColumnType("DECIMAL(18,2)");
+                        .HasColumnType("decimal(16, 2)");
 
                     b.HasKey("Id");
 
@@ -103,7 +103,7 @@ namespace CryptoWorkbooks.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("UsdPrice")
-                        .HasColumnType("DECIMAL(18,2)");
+                        .HasColumnType("decimal(24, 24)");
 
                     b.HasKey("Id");
 
@@ -119,7 +119,7 @@ namespace CryptoWorkbooks.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("DECIMAL(18,2)");
+                        .HasColumnType("decimal(24, 24)");
 
                     b.Property<string>("CreatedAt")
                         .IsRequired()
@@ -130,7 +130,7 @@ namespace CryptoWorkbooks.Migrations
                         .HasColumnType("VARCHAR(48)");
 
                     b.Property<decimal?>("Proceeds")
-                        .HasColumnType("DECIMAL(18,2)");
+                        .HasColumnType("decimal(24, 24)");
 
                     b.Property<int?>("ProceedsSymbolId")
                         .HasColumnType("INTEGER");
@@ -139,7 +139,7 @@ namespace CryptoWorkbooks.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("UsdProceeds")
-                        .HasColumnType("DECIMAL(18,2)");
+                        .HasColumnType("decimal(16, 2)");
 
                     b.Property<int>("WithdrawalTypeId")
                         .HasColumnType("INTEGER");

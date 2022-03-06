@@ -2,3 +2,4 @@ Swashbuckle.AspNetCore
 FirebirdSql.EntityFrameworkCore.Firebird
 Microsoft.EntityFrameworkCore.Design
 Microsoft.Extensions.Options.ConfigurationExtensions
+System.Text.Json
