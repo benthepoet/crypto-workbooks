@@ -12,44 +12,18 @@ namespace CryptoWorkbooks.Controllers;
 public class DepositsController : ControllerBase
 {
     private readonly Context _context;
-    private readonly PriceService _priceService;
+    private readonly TransactionService _transactionService;
 
-    public DepositsController(Context context, PriceService priceService)
+    public DepositsController(Context context, TransactionService transactionService)
     {
         _context = context;
-        _priceService = priceService;
+        _transactionService = transactionService;
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateAsync(CreateDepositRequest request)
     {
-        var symbol = await _context.Symbol.FirstOrDefaultAsync(x => x.Name == request.Symbol.ToUpper());
-        if (symbol == null)
-        {
-            symbol = new Symbol { Name = request.Symbol.ToUpper() };
-            _context.Add(symbol);
-            await _context.SaveChangesAsync();
-        }
-
-        var usdCostBasis = request.UsdCostBasis;
-        if (usdCostBasis == null)
-        {
-            var symbolPrice = await _priceService.GetSymbolPrice(request.Symbol, request.PerformedAt.Date);
-            usdCostBasis = request.Amount * symbolPrice.UsdPrice;
-        }
-
-        var deposit = new Deposit
-        {
-            DepositTypeId = request.DepositTypeId,
-            Symbol = symbol,
-            Amount = request.Amount,
-            UsdCostBasis = usdCostBasis.Value,
-            PerformedAt = request.PerformedAt,
-            CreatedAt = DateTimeOffset.UtcNow
-        };
-
-        _context.Add(deposit);
-        await _context.SaveChangesAsync();
+        await _transactionService.CreateDeposit(request);
 
         return this.Accepted();
     }

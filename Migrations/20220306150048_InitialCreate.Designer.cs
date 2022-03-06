@@ -4,14 +4,16 @@ using CryptoWorkbooks.Data;
 using FirebirdSql.EntityFrameworkCore.Firebird.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CryptoWorkbooks.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220306150048_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,6 +157,37 @@ namespace CryptoWorkbooks.Migrations
                     b.ToTable("Withdrawal");
                 });
 
+            modelBuilder.Entity("CryptoWorkbooks.Data.Models.WithdrawalTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(24, 24)");
+
+                    b.Property<string>("CreatedAt")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(48)");
+
+                    b.Property<int>("DepositId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("UsdCostBasis")
+                        .HasColumnType("decimal(16, 2)");
+
+                    b.Property<int>("WithdrawalId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepositId");
+
+                    b.HasIndex("WithdrawalId");
+
+                    b.ToTable("WithdrawalTransaction");
+                });
+
             modelBuilder.Entity("CryptoWorkbooks.Data.Models.WithdrawalType", b =>
                 {
                     b.Property<int>("Id")
@@ -229,6 +262,25 @@ namespace CryptoWorkbooks.Migrations
                     b.Navigation("Symbol");
 
                     b.Navigation("WithdrawalType");
+                });
+
+            modelBuilder.Entity("CryptoWorkbooks.Data.Models.WithdrawalTransaction", b =>
+                {
+                    b.HasOne("CryptoWorkbooks.Data.Models.Deposit", "Deposit")
+                        .WithMany()
+                        .HasForeignKey("DepositId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CryptoWorkbooks.Data.Models.Withdrawal", "Withdrawal")
+                        .WithMany()
+                        .HasForeignKey("WithdrawalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Deposit");
+
+                    b.Navigation("Withdrawal");
                 });
 #pragma warning restore 612, 618
         }

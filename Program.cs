@@ -17,6 +17,7 @@ builder.Services.AddDbContextPool<Context>((provider, options) =>
 });
 
 builder.Services.AddHttpClient<PriceService>();
+builder.Services.AddScoped<TransactionService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

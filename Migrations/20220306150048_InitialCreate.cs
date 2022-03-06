@@ -142,6 +142,35 @@ namespace CryptoWorkbooks.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "WithdrawalTransaction",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Fb:ValueGenerationStrategy", FbValueGenerationStrategy.IdentityColumn),
+                    WithdrawalId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DepositId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(24, 24)", nullable: false),
+                    UsdCostBasis = table.Column<decimal>(type: "decimal(16, 2)", nullable: false),
+                    CreatedAt = table.Column<string>(type: "VARCHAR(48)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WithdrawalTransaction", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WithdrawalTransaction_Depos~",
+                        column: x => x.DepositId,
+                        principalTable: "Deposit",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_WithdrawalTransaction_Withd~",
+                        column: x => x.WithdrawalId,
+                        principalTable: "Withdrawal",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Deposit_DepositTypeId",
                 table: "Deposit",
@@ -176,15 +205,28 @@ namespace CryptoWorkbooks.Migrations
                 name: "IX_Withdrawal_WithdrawalTypeId",
                 table: "Withdrawal",
                 column: "WithdrawalTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WithdrawalTransaction_Depos~",
+                table: "WithdrawalTransaction",
+                column: "DepositId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WithdrawalTransaction_Withd~",
+                table: "WithdrawalTransaction",
+                column: "WithdrawalId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Deposit");
+                name: "SymbolPrice");
 
             migrationBuilder.DropTable(
-                name: "SymbolPrice");
+                name: "WithdrawalTransaction");
+
+            migrationBuilder.DropTable(
+                name: "Deposit");
 
             migrationBuilder.DropTable(
                 name: "DepositType");

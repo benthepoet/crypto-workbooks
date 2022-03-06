@@ -12,44 +12,18 @@ namespace CryptoWorkbooks.Controllers;
 public class WithdrawalsController : ControllerBase
 {
     private readonly Context _context;
-    private readonly PriceService _priceService;
+    private readonly TransactionService _transactionService;
 
-    public WithdrawalsController(Context context, PriceService priceService)
+    public WithdrawalsController(Context context, TransactionService transactionService)
     {
         _context = context;
-        _priceService = priceService;
+        _transactionService = transactionService;
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateAsync(CreateWithdrawalRequest request)
     {
-        var symbol = await _context.Symbol.FirstOrDefaultAsync(x => x.Name == request.Symbol.ToUpper());
-        if (symbol == null)
-        {
-            symbol = new Symbol { Name = request.Symbol.ToUpper() };
-            _context.Add(symbol);
-            await _context.SaveChangesAsync();
-        }
-
-        var usdProceeds = request.UsdProceeds;
-        if (usdProceeds == null)
-        {
-            var symbolPrice = await _priceService.GetSymbolPrice(request.Symbol, request.PerformedAt.Date);
-            usdProceeds = request.Amount * symbolPrice.UsdPrice;
-        }
-
-        var withdrawal = new Withdrawal
-        {
-            WithdrawalTypeId = request.WithdrawalType,
-            Symbol = symbol,
-            Amount = request.Amount,
-            UsdProceeds = usdProceeds.Value,
-            PerformedAt = request.PerformedAt,
-            CreatedAt = DateTimeOffset.UtcNow
-        };
-
-        _context.Add(withdrawal);
-        await _context.SaveChangesAsync();
+        await _transactionService.CreateWithdrawal(request);
 
         return this.Accepted();
     }

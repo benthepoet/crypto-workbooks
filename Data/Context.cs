@@ -14,5 +14,6 @@ public class Context : DbContext
     public DbSet<Symbol> Symbol { get; set; } = null!;
     public DbSet<SymbolPrice> SymbolPrice { get; set; } = null!;
     public DbSet<Withdrawal> Withdrawal { get; set; } = null!;
+    public DbSet<WithdrawalTransaction> WithdrawalTransaction { get; set; } = null!;
     public DbSet<WithdrawalType> WithdrawalType { get; set; } = null!;
 }

@@ -9,5 +9,7 @@ public class CreateDepositRequest
 
     public decimal? UsdCostBasis { get; set; }
 
+    public int? FromWithdrawalId { get; set; }
+
     public DateTimeOffset PerformedAt { get; set; }
 }
