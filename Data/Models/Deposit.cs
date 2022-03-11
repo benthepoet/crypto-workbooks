@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CryptoWorkbooks.Data.Models;
+
 public class Deposit
 {
     public int Id { get; set; }
