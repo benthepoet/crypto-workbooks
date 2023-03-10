@@ -1,4 +1,5 @@
 ﻿namespace CryptoWorkbooks.Resources;
+
 public class CreateDepositRequest
 {
     public int DepositTypeId { get; set; }

@@ -88,6 +88,7 @@ public class TransactionService
         }
         catch (Exception)
         {
+            await transaction.RollbackAsync();
         }
     }
 
